@@ -156,3 +156,7 @@ footer .container .text-muted {
 #custom-search-input .glyphicon-search{
     font-size: 23px;
 }
+
+.end input{
+	margin-top: 4px;
+}

@@ -50,6 +50,8 @@ if($_POST['action'] == 'register') {
   if(! empty($errors)) {
     $_SESSION['errors'] = $errors;
     header('Location: index.html.php');
+  }else {
+    header('Location: admin.html.php');
   }
 
 
