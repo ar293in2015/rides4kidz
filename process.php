@@ -1,9 +1,11 @@
 <?php
   session_start();
   require("new-connection.php");
+  require("functions.php");
   $errors = array();
   $errors2 = array();
   $errors3 = array();
+
 
 
 if($_POST['action'] == 'register') {
@@ -51,6 +53,24 @@ if($_POST['action'] == 'register') {
     $_SESSION['errors'] = $errors;
     header('Location: index.html.php');
   }else {
+
+
+    $query = "INSERT INTO admins (name, email, school_name, password)
+    VALUES('{$_POST['name']}','{$_POST['email']}','{$_POST['schoolname']}','{$_POST['password']}')";
+    run_mysql_query($query);
+
+
+    $result = "SELECT * FROM admins where email = '{$_POST['email']}' AND password = '{$_POST['password']}'";
+    $grab = fetch($result);
+
+        $_SESSION['email'] = $grab['email'];
+        $_SESSION['name'] = $grab['name'];
+        $_SESSION['school'] = $grab['school_name'];
+
+var_dump($_SESSION);
+die();
+
+
     header('Location: admin.html.php');
   }
 
@@ -76,8 +96,21 @@ if($_POST['action'] == 'register') {
        $_SESSION['errors2'] = $errors2;
        header('Location: index.html.php');
      }else {
-       header('Location: index.html.php');
+       $result = "SELECT * FROM admins where email = '{$_POST['email']}' AND password = '{$_POST['password']}'";
+       $grab = fetch($result);
 
+       if($grab) {
+       $_SESSION['email'] = $grab['email'];
+       $_SESSION['name'] = $grab['name'];
+       $_SESSION['school'] = $grab['school_name'];
+
+
+
+       header('Location: admin.html.php');
+     }else {
+
+       header('Location: index.html.php');
+     }
     }
 
 }  else if ($_POST['action'] == 'contact') {
@@ -111,8 +144,35 @@ if($_POST['action'] == 'register') {
        $_SESSION['errors3'] = $errors3;
        header('Location: contact_us.html.php');
      }else {
-       header('Location: contact_us.html.php');
+       $result = "SELECT * FROM admins where email = '{$_POST['email']}' AND password = '{$_POST['password']}'";
+       $grab = fetch($result);
+
+           $_SESSION['email'] = $grab['email'];
+           $_SESSION['name'] = $grab['name'];
+           $_SESSION['school'] = $grab['school_name'];
+
+       var_dump($_SESSION);
+       die();
+
+
+       header('Location: admin.html.php');
      }
+
+
+} else if ($_POST['action'] == 'request') {
+
+  if(!empty($_POST['start']) && !empty($_POST['end1'])) {
+    $stop1 = get_prices($_POST['start'], $_POST['end1']);
+    if (isset($_POST['car']) && $_POST['car'] == 'uberx') {
+        $price['stop1'] = $stop1['prices']['0']['high_estimate'];
+    } else if (isset($_POST['car']) && $_POST['car'] == 'uberxl') {
+        $price['stop1'] = $stop1['prices']['1']['high_estimate'];
+    }
+
+    var_dump($price['stop1']);
+  }
+
+
 
 
 }

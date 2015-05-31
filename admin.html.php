@@ -1,3 +1,10 @@
+<?php
+
+require_once('functions.php');
+
+
+?>
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -87,15 +94,16 @@ $_SESSION = array();
 
 ?> -->
 				<form action="process.php" method="post" >
+					<input type='hidden' name="action" value="request">
 					<h5>Type of Uber Ride</h5>
-					<label class="checkbox-inline"><input type="checkbox" value="">UberX</label>
-					<label class="checkbox-inline"><input type="checkbox" value="">UberXL</label>
+					<label class="checkbox-inline"><input type="checkbox" name='car' value="uberx">UberX</label>
+					<label class="checkbox-inline"><input type="checkbox" value="uberxl" name='car'>UberXL</label>
 
 
 
 					<div class="form-group" style="margin-top:10px;">
 		      <label for="sel1">Number of Children:</label>
-		      <select class="form-control" id="sel1">
+		      <select name="numkids" class="form-control" id="sel1">
 		        <option>1</option>
 		        <option>2</option>
 		        <option>3</option>
@@ -133,7 +141,7 @@ $_SESSION = array();
 					<label for="comments">Comments:</label>
 				<textarea name="comment" class="form-control" rows="5"></textarea>
 			</div>
-				<input type="hidden" name="action" value="contact">
+
 				<button type="submit" class="btn btn-primary">Submit</button>
 			</form>
 			</div>
