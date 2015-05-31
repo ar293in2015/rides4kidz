@@ -1,7 +1,7 @@
 <?php
 
 
-	session_destroy();
+
 	//require_once('new-connection.php');
 
 	// Get bearer token from Uber

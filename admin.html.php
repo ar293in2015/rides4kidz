@@ -1,6 +1,6 @@
 <?php
-
-require_once('functions.php');
+	session_start();
+	require_once('functions.php');
 
 
 ?>
@@ -158,7 +158,7 @@ $_SESSION = array();
 
 
 		<p style="margin-top:40px; font-weight: bold; font-size: 150%; text-decoration:underline">Chauffers</p>
-  <table class="table table-hover">
+  <table class="table table-hover pending">
     <thead>
       <tr>
         <th>Firstname</th>
@@ -189,6 +189,94 @@ $_SESSION = array();
 
     </tbody>
   </table>
+
+
+
+
+<?php
+
+	if(isset($_SESSION['postdata'])) { ?>
+	<p style="margin-top:40px; font-weight: bold; font-size: 150%; text-decoration:underline">Pending Ride Request</p>
+
+<table class="table table-hover pending">
+	<thead>
+		<tr>
+			<th>Child's Name</th>
+			<th>Address</th>
+			<th>Price</th>
+		</tr>
+	</thead>
+	<tbody>
+		<?php
+
+		if(isset($_SESSION['stop1'])) {
+	    ?>
+		<tr>
+			<td><?= $_SESSION['postdata']['child1'] ?></td>
+			<td><?= $_SESSION['postdata']['end1'] ?></td>
+			<td><?= $_SESSION['stop1'] ?></td>
+		</tr>
+		<?php } 
+
+		if(isset($_SESSION['stop2'])) {
+	    ?>
+		<tr>
+			<td><?= $_SESSION['postdata']['child2'] ?></td>
+			<td><?= $_SESSION['postdata']['end2'] ?></td>
+			<td><?= $_SESSION['stop2'] ?></td>
+		</tr>
+		<?php } 
+
+		if(isset($_SESSION['stop3'])) {
+	    ?>
+		<tr>
+			<td><?= $_SESSION['postdata']['child3'] ?></td>
+			<td><?= $_SESSION['postdata']['end3'] ?></td>
+			<td><?= $_SESSION['stop3'] ?></td>
+		</tr>
+		<?php } 
+
+		if(isset($_SESSION['stop4'])) {
+	    ?>
+		<tr>
+			<td><?= $_SESSION['postdata']['child4'] ?></td>
+			<td><?= $_SESSION['postdata']['end4'] ?></td>
+			<td><?= $_SESSION['stop4'] ?></td>
+		</tr>
+		<?php } 
+
+		if(isset($_SESSION['stop5'])) {
+	    ?>
+		<tr>
+			<td><?= $_SESSION['postdata']['child5'] ?></td>
+			<td><?= $_SESSION['postdata']['end5'] ?></td>
+			<td><?= $_SESSION['stop5'] ?></td>
+		</tr>
+		<?php } 
+
+		if(isset($_SESSION['stop6'])) {
+	    ?>
+		<tr>
+			<td><?= $_SESSION['postdata']['child6'] ?></td>
+			<td><?= $_SESSION['postdata']['end6'] ?></td>
+			<td><?= $_SESSION['stop6'] ?></td>
+		</tr>
+		<?php } ?>
+
+
+	</tbody>
+</table>
+<button class="btn btn-success" style="margin-right:175px;">Save Request</button>
+
+<?php }
+?>
+
+
+
+
+
+
+
 	</div>
 </div>
 

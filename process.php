@@ -162,21 +162,98 @@ die();
 } else if ($_POST['action'] == 'request') {
 
   if(!empty($_POST['start']) && !empty($_POST['end1'])) {
-    $stop1 = get_prices($_POST['start'], $_POST['end1']);
+    $stop = get_prices($_POST['start'], $_POST['end1']);
+
     if (isset($_POST['car']) && $_POST['car'] == 'uberx') {
-        $price['stop1'] = $stop1['prices']['0']['high_estimate'];
+        $_SESSION['stop1'] = $stop['prices']['0']['high_estimate'];
     } else if (isset($_POST['car']) && $_POST['car'] == 'uberxl') {
-        $price['stop1'] = $stop1['prices']['1']['high_estimate'];
+        $_SESSION['stop1'] = $stop['prices']['1']['high_estimate'];
+    }
+  }
+
+  if (!empty($_POST['end1']) && !empty($_POST['end2'])) {
+    $stop = get_prices($_POST['end1'], $_POST['end1']);
+    if (isset($_POST['car']) && $_POST['car'] == 'uberx') {
+        $_SESSION['stop2'] = $stop['prices']['0']['high_estimate'];
+    } else if (isset($_POST['car']) && $_POST['car'] == 'uberxl') {
+        $_SESSION['stop2'] = $stop['prices']['1']['high_estimate'];
+    }
+  }
+
+  if (!empty($_POST['end2']) && !empty($_POST['end3'])) {
+    $stop = get_prices($_POST['end2'], $_POST['end3']);
+    if (isset($_POST['car']) && $_POST['car'] == 'uberx') {
+        $_SESSION['stop3'] = $stop['prices']['0']['high_estimate'];
+    } else if (isset($_POST['car']) && $_POST['car'] == 'uberxl') {
+        $_SESSION['stop3'] = $stop['prices']['1']['high_estimate'];
+    }
+  }
+
+  if (!empty($_POST['end3']) && !empty($_POST['end4'])) {
+    $stop = get_prices($_POST['end3'], $_POST['end4']);
+    if (isset($_POST['car']) && $_POST['car'] == 'uberx') {
+        $_SESSION['stop4'] = $stop['prices']['0']['high_estimate'];
+    } else if (isset($_POST['car']) && $_POST['car'] == 'uberxl') {
+        $_SESSION['stop4'] = $stop['prices']['1']['high_estimate'];
+    }
+  }
+
+  if (!empty($_POST['end4']) && !empty($_POST['end5'])) {
+    $stop = get_prices($_POST['end4'], $_POST['end5']);
+    if (isset($_POST['car']) && $_POST['car'] == 'uberx') {
+        $_SESSION['stop5'] = $stop['prices']['0']['high_estimate'];
+    } else if (isset($_POST['car']) && $_POST['car'] == 'uberxl') {
+        $_SESSION['stop5'] = $stop['prices']['1']['high_estimate'];
+    }
+  }
+
+  if (!empty($_POST['end5']) && !empty($_POST['end6'])) {
+    $stop = get_prices($_POST['end5'], $_POST['end6']);
+    if (isset($_POST['car']) && $_POST['car'] == 'uberx') {
+        $_SESSION['stop6'] = $stop['prices']['0']['high_estimate'];
+    } else if (isset($_POST['car']) && $_POST['car'] == 'uberxl') {
+        $_SESSION['stop6'] = $stop['prices']['1']['high_estimate'];
     }
 
-    var_dump($price['stop1']);
   }
+
+  $_SESSION['total'] = 0;
+
+  if(isset($_SESSION['stop1'])) {
+    $_SESSION['total'] += $_SESSION['stop1'];
+  }
+
+   if (isset($_SESSION['stop2'])) {
+    $_SESSION['total'] += $_SESSION['stop2'];
+  }
+
+   if (isset($_SESSION['stop3'])) {
+    $_SESSION['total'] += $_SESSION['stop3'];
+  }
+
+   if (isset($_SESSION['stop4'])) {
+    $_SESSION['total'] += $_SESSION['stop4'];
+  }
+
+  if (isset($_SESSION['stop5'])) {
+    $_SESSION['total'] += $_SESSION['stop5'];
+  }
+
+   if (isset($_SESSION['stop6'])) {
+    $_SESSION['total'] += $_SESSION['stop6'];
+  }
+
+  $_SESSION['postdata'] = $_POST;
+  // var_dump($_SESSION['postdata']);
+  // var_dump($_SESSION['total']);
+  header('Location: admin.html.php');
+
+
 
 
 
 
 }
-
 
 
 

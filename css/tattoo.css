@@ -160,3 +160,8 @@ footer .container .text-muted {
 .end input{
 	margin-top: 4px;
 }
+
+
+.pending td {
+	text-align:left;
+}
