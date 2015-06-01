@@ -165,3 +165,8 @@ footer .container .text-muted {
 .pending td {
 	text-align:left;
 }
+
+
+.kids img {
+	height: 300px;
+}

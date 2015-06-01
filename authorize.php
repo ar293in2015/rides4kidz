@@ -1,5 +1,5 @@
 <?php
-
+	// session_start();
 
 
 	//require_once('new-connection.php');
@@ -71,19 +71,19 @@
 
 	// Use sandbox to access production endpoints without creating actual requests.
 
-	function use_bearer_sandbox($version, $endpoint, $parameters, $token, $product_id = false) {
+	function use_bearer_sandbox($version, $endpoint, $parameters, $token, $request_id = false) {
 		$bearer = curl_init();
 		$parameters = json_encode($parameters);
-		if ($product_id == true) {
-			curl_setopt($bearer, CURLOPT_URL, 'https://sandbox-api.uber.com/'.$version.'/sandbox/'.$endpoint.'/{request_id: 53453453453}');
+		if ($request_id) {
+			curl_setopt($bearer, CURLOPT_URL, 'https://sandbox-api.uber.com/'.$version.'/sandbox/'.$endpoint.'/{request_id: '.$request_id.'}');
 			curl_setopt($bearer, CURLOPT_HEADER, false);
+			curl_setopt($bearer, CURLOPT_CUSTOMREQUEST, "PUT");
 		} else {
-			curl_setopt($bearer, CURLOPT_URL, 'https://sandbox-api.uber.com/'.$version.'/sandbox/'.$endpoint);
-			curl_setopt($bearer, CURLOPT_HEADER, true);
+			curl_setopt($bearer, CURLOPT_URL, 'https://sandbox-api.uber.com/'.$version.'/'.$endpoint);
+			curl_setopt($bearer, CURLOPT_HEADER, false);
+			curl_setopt($bearer, CURLOPT_POST, true);
 		}
 		curl_setopt($bearer, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($bearer, CURLOPT_POST, true);
-		curl_setopt($bearer, CURLOPT_CUSTOMREQUEST, "PUT");
 		curl_setopt($bearer, CURLOPT_POSTFIELDS, $parameters);
 		curl_setopt($bearer, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer $token"));
 		$returned_data = curl_exec($bearer);
@@ -99,13 +99,27 @@
 
 	// This will return an 'access_token' which we store in the database.
 
-	if (isset($_GET['code'])) {
-		$token = get_token(array('client_secret' => 'ASZAFzKz-GMCKty5SI3uklvcKween2svRO4_9vuy', 'client_id' => 'vF4UAYd4NszROsfq9AqNdSj1UfzsRRTb', 'grant_type' => 'authorization_code', 'redirect_uri' => 'http://localhost:8888/Uber/courseway/authorize.php?', 'code' => "{$_GET['code']}"));
-		if ($token) {
-			$query = "INSERT INTO schools (token) VALUES ($token)";
-			run_mysql_query($query);
-		}
-	}
+	// if (isset($_GET['code'])) {
+	// 	$token = get_token(array('client_secret' => 'ASZAFzKz-GMCKty5SI3uklvcKween2svRO4_9vuy', 'client_id' => 'vF4UAYd4NszROsfq9AqNdSj1UfzsRRTb', 'grant_type' => 'authorization_code', 'redirect_uri' => 'http://localhost:8888/Uber/courseway/authorize.php?', 'code' => "{$_GET['code']}"));
+	// 	if ($token) {
+	// 		$query = "INSERT INTO schools (token) VALUES ($token)";
+	// 		run_mysql_query($query);
+	// 	}
+	// }
+
+	//$product_id = use_server_token('v1', 'products', '-vsDawVSG07jZ6W6mqCVd8OCXAnBpQ1I-FZdqPDw', array('latitude' => '37.278615', 'longitude' => '-121.856369'));
+	//var_dump($product_id);
+
+
+	  function curl_get_code(){
+
+	  	$code = curl_init();
+	  	curl_setopt($code, CURLOPT_URL, 'https://login.uber.com/oauth/authorize?client_id=vF4UAYd4NszROsfq9AqNdSj1UfzsRRTb&response_type=code&scope=history%20profile%20request%20request_receipt');
+	  	curl_setopt($code, CURLOPT_RETURNTRANSFER, true);
+	  	curl_setopt($code, CURLOPT_HEADER, true);
+	  	curl_setopt($code, CURLOPT_POST, false);
+		$returned_code = curl_exec($code);
+	  }
 
 
 
@@ -133,5 +147,44 @@
 	// use_bearer_sandbox('v1', 'requests', array('product_id' => 'a1111c8c-c720-46c3-8534-2fcdd730040d', 'start_latitude' => '37.386358', 'start_longitude' => '-121.927910', 'end_latitude' => '37.377536', 'end_longitude' => '-121.911915' ));
 	// use_bearer_sandbox('v1', 'requests', array('status' => 'completed'), true);
 	// var_dump($_SESSION);
+
+
+
+
+	// if ($_POST['action'] == 'requestride') {
+	//
+	//   curl_get_code();
+	//   var_dump($_GET);
+	//   die();
+	//   $product_id = use_server_token('v1', 'products', '3GN0YfArYxQgZShl2aD2NgM0znBxYEAvhiTPwDen', array('latitude' => '37.400338', 'longitude' => '-121.882216'));
+	// 	$token = get_token(array('client_secret' => 'beewPLrpdUv8XsylE0wiRAkOIZaUbTw_pNE4DDu9', 'client_id' => 'Uh5Nhd87whQ0ZEyF0yK46_PXuAG-Ldps', 'grant_type' => 'authorization_code', 'redirect_uri' => 'http://localhost:8888/ride4kidz/bootstrap-3.2.0-dist/authorize.php', 'code' => "{$_GET['code']}"));
+	// 	$request_id = use_bearer_sandbox('v1', 'requests', array('product_id' => $product_id['products'][0]['product_id'], 'start_latitude' => '37.278615', 'start_longitude' => '-121.856369', 'end_latitude' => '37.376980', 'end_longitude' => '-121.912373'), $token['access_token']);
+	// 	$_SESSION['requestid'] = $request_id['status'];
+	//   $_SESSION['buttonid'] = $_POST['ride'];
+	//
+	//   header("Location: admin.html.php");
+	//
+	// }
+
+
+if (isset($_GET['code'])) {
+
+	  $product_id = use_server_token('v1', 'products', '3GN0YfArYxQgZShl2aD2NgM0znBxYEAvhiTPwDen', array('latitude' => '37.400338', 'longitude' => '-121.882216'));
+
+
+		$token = get_token(array('client_secret' => 'beewPLrpdUv8XsylE0wiRAkOIZaUbTw_pNE4DDu9', 'client_id' => 'Uh5Nhd87whQ0ZEyF0yK46_PXuAG-Ldps', 'grant_type' => 'authorization_code', 'redirect_uri' => 'http://localhost:8888/bootstrap-3.2.0-dist/authorize.php', 'code' => "{$_GET['code']}"));
+
+
+		$request_id = use_bearer_sandbox('v1', 'requests', array('product_id' => $product_id['products'][0]['product_id'], 'start_latitude' => '37.278615', 'start_longitude' => '-121.856369', 'end_latitude' => '37.376980', 'end_longitude' => '-121.912373'), $token['access_token']);
+
+
+
+		$_SESSION['requestid'] = $request_id['status'];
+
+	  // $_SESSION['buttonid'] = $_POST['ride'];
+
+	  header("Location: admin.html.php");
+
+}
 
 ?>

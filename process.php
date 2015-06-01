@@ -1,7 +1,8 @@
 <?php
   session_start();
-  require("new-connection.php");
-  require("functions.php");
+  require_once("new-connection.php");
+  require_once("functions.php");
+  require_once('authorize.php');
   $errors = array();
   $errors2 = array();
   $errors3 = array();
@@ -66,9 +67,10 @@ if($_POST['action'] == 'register') {
         $_SESSION['email'] = $grab['email'];
         $_SESSION['name'] = $grab['name'];
         $_SESSION['school'] = $grab['school_name'];
-
-var_dump($_SESSION);
-die();
+        $_SESSION['admin_id'] = intval($grab['id']);
+//
+// var_dump($_POST);
+// die();
 
 
     header('Location: admin.html.php');
@@ -103,6 +105,7 @@ die();
        $_SESSION['email'] = $grab['email'];
        $_SESSION['name'] = $grab['name'];
        $_SESSION['school'] = $grab['school_name'];
+       $_SESSION['admin_id'] = intval($grab['id']);
 
 
 
@@ -217,6 +220,8 @@ die();
 
   }
 
+
+
   $_SESSION['total'] = 0;
 
   if(isset($_SESSION['stop1'])) {
@@ -253,8 +258,49 @@ die();
 
 
 
+} else if ($_POST['action'] == 'saveride') {
+  $query = "INSERT INTO rides (";
+  if (isset($_SESSION['postdata']['end1']) && isset($_SESSION['postdata']['child1']) && isset($_SESSION['stop1'])) {
+    $query .= "destination1, kid1, price1, ";
+  }
+  if (isset($_SESSION['postdata']['end2']) && isset($_SESSION['postdata']['child2']) && isset($_SESSION['stop2'])) {
+    $query .= "destination2, kid2, price2, ";
+  }
+  if (isset($_SESSION['postdata']['end3']) && isset($_SESSION['postdata']['child3']) && isset($_SESSION['stop3'])) {
+    $query .= "destination3, kid3, price3, ";
+  }
+  if (isset($_SESSION['postdata']['end4']) && isset($_SESSION['postdata']['child4']) && isset($_SESSION['stop4'])) {
+    $query .= "destination4, kid4, price4, ";
+  }
+  if (isset($_SESSION['postdata']['end5']) && isset($_SESSION['postdata']['child5']) && isset($_SESSION['stop5'])) {
+    $query .= "destination5, kid5, price5, ";
+  }
+  if (isset($_SESSION['postdata']['end6']) && isset($_SESSION['postdata']['child6']) && isset($_SESSION['stop6'])) {
+    $query .= "destination6, kid6, price6, ";
+  }
+  $query .= "total, admin_id) VALUES ('";
+  if (isset($_SESSION['postdata']['end1'])) {
+    $query .= $_SESSION['postdata']['end1']."', '".$_SESSION['postdata']['child1']."', '".$_SESSION['stop1']."', '";
+  }
+  if (isset($_SESSION['postdata']['end2'])) {
+    $query .= $_SESSION['postdata']['end2']."', '".$_SESSION['postdata']['child2']."', '".$_SESSION['stop2']."', '";
+  }
+  if (isset($_SESSION['postdata']['end3'])) {
+    $query .= $_SESSION['postdata']['end3']."', '".$_SESSION['postdata']['child3']."', '".$_SESSION['stop3']."', '";
+  }
+  if (isset($_SESSION['postdata']['end4'])) {
+    $query .= $_SESSION['postdata']['end4']."', '".$_SESSION['postdata']['child4']."', '".$_SESSION['stop4']."', '";
+  }
+  if (isset($_SESSION['postdata']['end5'])) {
+    $query .= $_SESSION['postdata']['end5']."', '".$_SESSION['postdata']['child5']."', '".$_SESSION['stop5']."', '";
+  }
+  if (isset($_SESSION['postdata']['end6'])) {
+    $query .= $_SESSION['postdata']['end6']."', '".$_SESSION['postdata']['child6']."', '".$_SESSION['stop6']."', '";
+  }
+  $query .= $_SESSION['total']."', '".$_SESSION['admin_id']."')";
+  run_mysql_query($query);
+  header('Location: admin.html.php');
 }
-
 
 
 

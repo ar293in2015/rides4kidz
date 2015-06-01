@@ -183,30 +183,64 @@ $savedrides = fetch($query);
 ?>
 <p style="margin-top:40px; font-weight: bold; font-size: 150%; text-decoration:underline">Saved Rides</p>
 <?php
-if (isset($savedrides) ) {
-	for ($i = 0; $i < count($savedrides); $i++) {?>
-		<table class="table table-hover pending">
-			<thead>
-				<th>Childs Name</th>
-				<th>Destination</th>
-				<th>Price</th>
-			</thead>
-			<tbody>
-				<?php
-		for ($j = 1; $j < 6; $j++) {?>
-		<tr>
-			<td><?= $savedrides[$i]['kid'.$j] ?></td>
-			<td><?= $savedrides[$i]['destination'.$j] ?></td>
-			<td><?= $savedrides[$i]['price'.$j] ?></td>
-		</tr>
-		<?php
-	}?>
+if (isset($savedrides)) {
+	foreach ($savedrides as $singleRide) {
+		if (is_array($singleRide)) { ?>
+				<table class="table table-hover pending">
+					<thead>
+						<th>Childs Name</th>
+						<th>Destination</th>
+						<th>Price</th>
+					</thead>
+					<tbody>
+						<?php
+				for ($j = 1; $j < 6; $j++) {?>
+				<tr>
+					<td><?= $savedrides[$i]['kid'.$j] ?> </td>
+					<td><?= $savedrides[$i]['destination'.$j] ?> </td>
+					<td><?= $savedrides[$i]['price'.$j] ?> </td>
+				</tr>
+		<?php	} ?>
+	</tbody>
+	</table>
+	<p style="font-weight:bold">Total Price: $<?= $savedrides[$i]['total'] ?></p>
+	<form action='authorize.php' method="post">
+		<input type="hidden" name="action" value="requestride">
+		<input type="hidden" name="ride" value="<?= $savedrides[$i]['id'] ?>">
+
+	<?php	}
+		else { ?>
+				<table class="table table-hover pending">
+					<thead>
+						<th>Childs Name</th>
+						<th>Destination</th>
+						<th>Price</th>
+					</thead>
+					<tbody>
+						<?php
+				for ($j = 1; $j < 6; $j++) {?>
+				<tr>
+					<td><?= $savedrides['kid'.$j] ?> </td>
+					<td><?= $savedrides['destination'.$j] ?> </td>
+					<td><?= $savedrides['price'.$j] ?> </td>
+				</tr>
+	<?php		}
+	?>
+
 </tbody>
 </table>
- <p style="font-weight:bold">Total Price: $<?= $savedrides[$i]['total'] ?></p>
+<p style="font-weight:bold">Total Price: $<?= $savedrides['total'] ?></p>
 <form action='authorize.php' method="post">
 	<input type="hidden" name="action" value="requestride">
-	<input type="hidden" name="ride" value="<?= $savedrides[$i]['id'] ?>">
+	<input type="hidden" name="ride" value="<?= $savedrides['id'] ?>">
+
+	<?php
+
+		}
+
+}
+
+	} else {}?>
 
 	<?php
 	if(isset($_SESSION['requestid'])) {
@@ -220,8 +254,6 @@ if (isset($savedrides) ) {
 
 </form>
 <?php
-	}
-}
 
 
 
@@ -246,8 +278,8 @@ if (isset($savedrides) ) {
 		if(isset($_SESSION['stop1'])) {
 	    ?>
 		<tr>
-			<td><?= $_SESSION['postdata']['child1'] ?></td>
-			<td><?= $_SESSION['postdata']['end1'] ?></td>
+			<td><?= $_SESSION['postdata']['child1'] ?> </td>
+			<td><?= $_SESSION['postdata']['end1'] ?> </td>
 			<td><?= $_SESSION['stop1'] ?></td>
 		</tr>
 		<?php }
@@ -255,8 +287,8 @@ if (isset($savedrides) ) {
 		if(isset($_SESSION['stop2'])) {
 	    ?>
 		<tr>
-			<td><?= $_SESSION['postdata']['child2'] ?></td>
-			<td><?= $_SESSION['postdata']['end2'] ?></td>
+			<td><?= $_SESSION['postdata']['child2'] ?> </td>
+			<td><?= $_SESSION['postdata']['end2'] ?> </td>
 			<td><?= $_SESSION['stop2'] ?></td>
 		</tr>
 		<?php }
@@ -264,8 +296,8 @@ if (isset($savedrides) ) {
 		if(isset($_SESSION['stop3'])) {
 	    ?>
 		<tr>
-			<td><?= $_SESSION['postdata']['child3'] ?></td>
-			<td><?= $_SESSION['postdata']['end3'] ?></td>
+			<td><?= $_SESSION['postdata']['child3'] ?> </td>
+			<td><?= $_SESSION['postdata']['end3'] ?> </td>
 			<td><?= $_SESSION['stop3'] ?></td>
 		</tr>
 		<?php }
@@ -273,8 +305,8 @@ if (isset($savedrides) ) {
 		if(isset($_SESSION['stop4'])) {
 	    ?>
 		<tr>
-			<td><?= $_SESSION['postdata']['child4'] ?></td>
-			<td><?= $_SESSION['postdata']['end4'] ?></td>
+			<td><?= $_SESSION['postdata']['child4'] ?> </td>
+			<td><?= $_SESSION['postdata']['end4'] ?> </td>
 			<td><?= $_SESSION['stop4'] ?></td>
 		</tr>
 		<?php }
@@ -282,8 +314,8 @@ if (isset($savedrides) ) {
 		if(isset($_SESSION['stop5'])) {
 	    ?>
 		<tr>
-			<td><?= $_SESSION['postdata']['child5'] ?></td>
-			<td><?= $_SESSION['postdata']['end5'] ?></td>
+			<td><?= $_SESSION['postdata']['child5'] ?> </td>
+			<td><?= $_SESSION['postdata']['end5'] ?> </td>
 			<td><?= $_SESSION['stop5'] ?></td>
 		</tr>
 		<?php }
@@ -291,8 +323,8 @@ if (isset($savedrides) ) {
 		if(isset($_SESSION['stop6'])) {
 	    ?>
 		<tr>
-			<td><?= $_SESSION['postdata']['child6'] ?></td>
-			<td><?= $_SESSION['postdata']['end6'] ?></td>
+			<td><?= $_SESSION['postdata']['child6'] ?> </td>
+			<td><?= $_SESSION['postdata']['end6'] ?> </td>
 			<td><?= $_SESSION['stop6'] ?></td>
 		</tr>
 		<?php } ?>
