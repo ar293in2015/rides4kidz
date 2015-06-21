@@ -1,4 +1,11 @@
-App that me and 3 other team members created for a Uber Hackathon during my time at Coding Dojo. The objective of the Hackathon was to create an web app that was beneficial to the community. The web app also had to include the uber API.
+Rides4Kidz
+=============
 
-RIDES4KIDZ
-The app we created was called RIDES4KIDZ. Using this website, we set out to allow schools to sign up and share the page on social media or through emails in order to recieve donations. These donations would then be used to provide kids with rides home for after school programs who other wouldn't the means to make it home.
+This is a project that three of my classmates and myself created for an Uber Hackathon during my time at Coding Dojo bootcamp. The objective of the Hackathon was to create a web application that benefits the community with the requirement of including an Uber API.
+
+The objective of this website is to give kids the opportunity to be involved in after school programs who do not have the transportation means to do so. In order to receive funding, the schools can link to social medias or send email requests within the community to promote their schools. Once schools receive donations, that funding can then be used to request Uber rides for the kids. Our application has the ability to request up to six different destinations in one single request showcasing individual prices for each destination and the total amount for all the rides.
+
+
+
+
+
